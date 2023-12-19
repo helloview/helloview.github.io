@@ -1,0 +1,153 @@
+---
+id: data-structure-array
+title: Array | Data Structure
+sidebar_label: Array
+description: data structure array
+keywords: [data structure, array]
+tags: [array, data structure]
+last_update:
+  date: 2023-11-17
+  author: Yuxuan Jiang
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+
+## Leetcode Questions
+
+<details>
+    <summary>1. Two Sum [easy]</summary>
+    <div>
+        [1. Two Sum](https://leetcode.com/problems/two-sum/)
+
+        The strategy to solve this problem:
+        1. `Iterate through the Array`: Loop through each element in the array.
+        2. `Check for the Complement`: For every element, check if the complement (target - current element) exists in the hash table.
+        3. `Store Elements in a Hash Table`: If the complement is not found, store the current element's value and its index in the hash table.
+        4. `Return Indices`: If a complement is found, return the indices of the current element and its complement.
+
+        <Tabs defaultValue="javascript" values={[
+            {label: 'JavaScript', value: 'javascript'}
+        ]}>
+            <TabItem value="javascript">
+                ```javascript showLineNumbers
+                // Time Complexity: O(n)
+                // Space Complexity: O(n)
+                var twoSum = function(nums, target) {
+                    const map = new Map();
+
+                    // iterate through the array
+                    for(let i=0; i<nums.length ;i++){
+                        // check for the complement
+                        let complement = target - nums[i];
+
+                        if(map.has(complement)){
+                            // return indices
+                            return [map.get(complement), i];
+                        }
+
+                        // store elements in a hash table if complement is not found
+                        map.set(nums[i], i);
+                    }
+                };
+                ```
+            </TabItem>
+        </Tabs>
+    </div>
+</details>
+
+<details>
+    <summary>26. Remove Duplicates from Sorted Array [easy]</summary>
+    <div>
+        [26. Remove Duplicates from Sorted Array](https://leetcode.com/problems/remove-duplicates-from-sorted-array/)
+
+        The strategy to solve this problem:
+        1. `Two Pointers`: Use two pointers, where one (i) iterates through the array, and the other (j) keeps track of the position of the next unique element.
+        2. `Iterate and Compare`: As you iterate through the array, compare adjacent elements. If they are different, it means you've found a new unique element. Move this unique element to the position next to the last found unique element (j index).
+        3. `Update the Second Pointer`: Each time a new unique element is found, increment the j pointer.
+        4. `Return Length`: The length of the array without duplicates is the final value of the j pointer plus 1 (as array indices are zero-based).
+
+        <Tabs defaultValue="javascript" values={[
+            {label: 'JavaScript', value: 'javascript'}
+        ]}>
+            <TabItem value="javascript">
+                ```javascript showLineNumbers
+                // Time Complexity: O(n)
+                // Space Complexity: O(1)
+
+                var removeDuplicates = function(nums) {
+                    if(nums.length === 0) return 0;
+
+                    // use two pointers
+                    let unique = 0; // unique is used to check unique numbers
+                    for(let i=1; i<nums.length; i++){ // i is used to traverse the array
+                        // if unique number is found, increase pointer unique
+                        if(nums[unique] !== nums[i]){
+                            unique++;
+                            nums[unique] = nums[i];
+                        }
+                    }
+
+                    return unique + 1;
+                };
+                ```
+            </TabItem>
+        </Tabs>
+    </div>
+</details>
+
+<details>
+    <summary>1913. Maximum Product Difference Between Two Pairs [easy]</summary>
+    <div>
+        [1913. Maximum Product Difference Between Two Pairs](https://leetcode.com/problems/maximum-product-difference-between-two-pairs)
+
+        The strategy to solve this problem:
+
+        1. `Sort the Array`: Sort the array in non-decreasing order.
+        2. `Find the Maximum Product`: The maximum product is given by the product of the last two elements (the two largest elements).
+        3. `Find the Minimum Product`: Similarly, the minimum product is given by the product of the first two elements (the two smallest elements).
+        Calculate the Difference: Subtract the minimum product from the maximum product.
+
+        <Tabs defaultValue="javascript" values={[
+            {label: 'JavaScript', value: 'javascript'},
+            {label: 'Java', value:'java'}
+        ]}>
+            <TabItem value="javascript">
+                ```javascript showLineNumbers
+                // Time Complexity: O(n log n)
+                // Space Complexity: O(1)
+
+                var maxProductDifference = function(nums) {
+                    // sort the array from smallest to largest
+                    nums.sort((a, b) => a - b);
+
+                    // get the length of array
+                    const len = nums.length;
+
+                    // calculate the pair product
+                    return (nums[len -1] * nums[len-2]) - (nums[0] * nums[1]);
+                };
+                ```
+            </TabItem>
+            <TabItem value="java">
+                ```javascript showLineNumbers
+                class Solution {
+                    public int maxProductDifference(int[] nums) {
+                        // sort the array using Arrays.sort() function
+                        Arrays.sort(nums);
+
+                        // get the length of array
+                        int len = nums.length;
+
+                        // calculate the product of pairs
+                        int minProduct = nums[0] * nums[1];
+                        int maxProduct = nums[len - 1] * nums[len - 2];
+                        return maxProduct - minProduct;
+                    }
+                }
+                ```
+            </TabItem>
+        </Tabs>
+    </div>
+</details>

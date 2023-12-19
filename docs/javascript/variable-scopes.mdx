@@ -1,0 +1,247 @@
+---
+id: javascript-variable-and-scopes
+title: Javascript Variable and Scopes
+sidebar_label: 1. Variable & Scopes
+description: How do I find you when I cannot solve this problem
+keywords:
+  - javascript variable
+  - javascript scopes
+tags:
+  - javascript
+last_update:
+  date: 2023-11-18
+  author: Yuxuan Jiang
+---
+# JavaScript Variable and Scopes
+
+:::info[What need to know]
+This is Variable and Scope
+:::
+
+## The Undefined type
+
+:::success[what is undefined type?]
+When a variable is declared using `var` or `let` but not initialized
+:::
+
+If using typeof operator to check the data type of an variable, if the variable is not declared, it will also return undefined:
+
+```javascript
+let message;
+
+console.log(typeof message) // undefined
+console.log(typeof age) // undefined, even though age is not declared
+```
+
+The value of `undefined` is falsy
+
+```javascript
+let age
+
+if(age){
+    console.log('This is truthy'); // this block will not execute
+}else{
+    console.log('This is falsy'); // this block will execute
+}
+```
+
+But if the variable is not declared, and we want to use the undeclared variable as checking state, it will throw ReferrenceError:
+
+```javascript
+if(name){
+    console.log('message'); // ReferenceError: name is not defined
+}
+```
+
+But one more thing should be note, if we using `typeof` operator for condition state, it has problem:
+
+```javascript
+if(typeof age){
+    console.log('This is truthy'); // this block will be execute
+}else{
+    console.log('This is falsy');
+}
+```
+
+This will happen because the `typeof` operator returns a string "undefined", not the type `undefined`, so since string "undefined" is not an empty string, it will always execute the block of truthy.
+
+But if we want to check if an variable is `undefined`, we can use keyword `undefined` to compare:
+
+```javascript
+let age;
+if(age === undefined){
+    console.log('This is truthy'); // this block will execute
+}else{
+    console.log('This is falsy');
+}
+```
+
+> Note: you should never explicity set the value of a variable to `undefined`
+
+## The `Null` Type
+
+> The `null` value is an empty object pointer, which is why "typeof null" returns "object". When defining a variable that is meant to later hold an object, it's advisable to initialize the variable to null as opposed to anything else.
+
+```javascript
+console.log(typeof null) // object
+```
+
+Note: the value of `undefined` is derivative of `null`, therefore, when using equality operator (==), the result will always be true:
+
+```javascript
+console.log(undefined == null); // true
+```
+
+The value of `null` is falsy.
+
+```javascript
+let Student = null;
+
+if(Student){
+    console.log("This is truthy");
+}else{
+    console.log("This is falsy"); // this block will execute
+}
+```
+
+
+
+> Note: You should always set `null` to any variable that expected an object not to available now.
+
+
+
+## The `Boolean` Type
+
+> Boolean type has only two literal values: true and false, they're case-sensitive, which means True and False are also valid as identifier but not as Boolean values. Keep in mind, true is not equal to 1, and false is not equal to 0.
+
+### Boolean Casting
+
+| Data Type | Value Converted to True               | Value Converted to False |
+| --------- | ------------------------------------- | ------------------------ |
+| Boolean   | true                                  | false                    |
+| String    | Any nonempty string                   | "" (empty string)        |
+| Number    | Any nonzero number including infinity | 0, NAN                   |
+| Object    | any object                            | null                     |
+| Undefined |                                       | undefined                |
+
+
+
+## The `Number` Type
+
+> Number Type uses the IEEE-754 format to represent both integer and floating-point values.
+
+For integers,  it can represents decimal (base 10), octal (base 8,  and hexidecimal (base 16) literal.
+
+```javascript
+console.log("Octal ", 072);			 // 58
+console.log("Decimal ", 58);     // 58
+console.log("Hexdecimal ", 0x3A) // 58
+```
+
+For floating-point values, there are something should be aware.
+
+* Floating-point values use twice memory than integer. When there is no digit after the decimal point, the number becomes an integer, as well as a whole number (1.0)
+
+```javascript
+let num = 1.0
+let num2 = 10.
+console.log(num); // 1
+console.log(num2) // 10
+  ```
+
+* Floating-point values are accurate up to 17 decimal places but are far less accurate in arithmetic
+Adding 0.1 and 0.2 yields 0.30000000000000004 instead of 0.3, `so never never test for specific floating-point values.`
+
+```javascript
+if (0.1 + 0.2 === 0.3){
+    console.log("this is correct");
+}else{
+    console.log("this is incorrect"); // This block is execute
+}
+  ```
+
+
+
+### Range of Numbers
+
+`Number.MIN_VALUE`: The smallest number
+
+`Number.MAX_VALUE`: The largest number
+
+`-Infinity`: ant negative number can't be represented
+
+`Infinity`: any positive number can't be represented
+
+`isFinite()`: determine a value is finite
+
+```javascript
+let max = Number.MAX_VALUE + Number.MAX_VALUE;
+console.log(max); // Infinity
+console.log(isFinite(max)); // false
+
+let min = Number.MIN_VALUE - Number.MIN_VALUE;
+console.log(min); // 0
+console.log(isFinite(min)); // true
+
+let num = Number.MAX_VALUE + Number.MIN_VALUE;
+console.log(num); // 1.7976931348623157e+308
+console.log(isFinite(num)); // true
+
+let num1 = Number.MAX_VALUE - Number.MIN_VALUE;
+console.log(num1); // 1.7976931348623157e+308
+console.log(isFinite(num1)); // true
+```
+
+
+
+### NaN
+
+> NaN, stands for `Not a Number`, which indicates when an operation intended to return a number has failed. In ECMAScript, dividing a number by 0 returns NaN, which allows other processing to continue.
+>
+> Any operation involving NaN always returns NaN.
+> NaN is not equal to any value, including NaN
+
+```javascript
+console.log(NaN == NaN);        //  false
+console.log(NaN == 123);        //  false
+console.log(NaN == null);       //  false
+console.log(NaN == undefined);  //  false
+```
+
+
+
+`isNaN()`:  the function accepts a single arguments, which can be any data type, to determine if the value is "not a number", when a value is passed into isNaN function, an attempt is made to convert it into a number. Any value cannot be converted into a number causes the function to return true.
+
+```javascript
+console.log(isNaN(10));     // false
+console.log(isNaN("10"));   // false
+console.log(isNaN(null));   // false
+console.log(isNaN("x123")); // true
+
+```
+
+isNaN() is also can be applied to objects. When an object is passed into isNaN function, it will first call object's `valueOf()` function to determine if the returned value can be converted into a number, if not, the toString() method is called and its return value is tested as well.
+
+```javascript
+const Node = {}
+
+const Teacher = {
+    valueOf: () => {
+        return Infinity;
+    }
+}
+
+const Student = {
+    age: 10,
+    toString: () => {
+        return "10";
+    }
+};
+
+console.log(isNaN(Node));       // true
+console.log(isNaN(Teacher));    // false
+console.log(isNaN(Student));    // false
+```
+
+
+
