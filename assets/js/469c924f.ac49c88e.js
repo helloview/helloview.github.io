@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkblog=self.webpackChunkblog||[]).push([[240],{342:a=>{a.exports=JSON.parse('{"label":"roadmap","permalink":"/docs/tags/roadmap","allTagsPath":"/docs/tags","count":1,"items":[{"id":"roadmap/roadmap","title":"Roadmap","description":"The roadmap for the study","permalink":"/docs/roadmap/"}],"unlisted":false}')}}]);
